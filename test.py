@@ -43,6 +43,26 @@ def sendOSC(freq,dudy):
     #return [div/top,(pwm*100)/top]
     return [freq,dudy]
 
+def sendOSC2(Tl,Th):
+    freq = 1/(Tl+Th)
+    dudy = (Th*100)/(Tl+Th)
+    if(dudy >= 100):
+        return 1
+    if(dudy < 1):
+        return 1
+
+    print(Th)
+    print(dudy)
+
+    Send32(int(freq))
+    Send8(int(dudy))
+    i = Read8()
+    div = 20000000/(2**i)
+    pwm = Read16()
+    top = Read16()
+    #return [div/top,(pwm*100)/top]
+    return 0
+
 def GetV(ratio):
     Vin = 4
     Factor = 8
@@ -54,19 +74,22 @@ def frange(start, end, jump):
 #with open('output.txt','w') as filehandle:
 # data = json.load(filehandle)
 base = 10 # base for the exponent for log scale
-startF = 500 # starting frequency 
+startF = 100 # starting frequency 
 endF = 500000 # ending frequency 
 dataPoints = 100 # amount of data points to collect between frequency jumps
 lists = []
-for dudy in range(10,100,10): # starting dudy cycle ending dudy cycle and increment amount   
+for dudy in range(10,1000,10): # starting dudy cycle ending dudy cycle and increment amount   
     for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
-        freq = base**exp
-        lista = sendOSC(freq,dudy)
+        Th = .001/dudy
+        Tl = base**(-1*exp)-Th
+        if(sendOSC2(Tl,Th)):
+            continue
+        lista = [Tl,Th]
         listb = []
         for _ in range(40): #2 seconds of data becuse of 10hz send rate
             listb.append(GetV(511.0/11.0))
         lists.append(lista)
         lists.append(listb)
         print(lists)
-        with open('output.txt','w') as filehandle:
+        with open('out.txt','w') as filehandle:
             json.dump(lists, filehandle)
