@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import json
 import numpy as np 
-inct = 20
+inct = 40
 obj = 40
 def incavg(arr, inc):
     ret = []
@@ -18,7 +18,7 @@ def incavg(arr, inc):
     return ret
 while True:
     color = ['r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k']
-    with open('out.txt','r') as filehandle:
+    with open('output.txt','r') as filehandle:
         lists = json.load( filehandle)
     dudy = lists[0][1]
     x = [[]]
@@ -44,7 +44,7 @@ while True:
     #        dudy = (a*10)+10
     #        y[a][b] = (1/y[a][b])*(dudy/100)
   
-    for i in range(0,30,1):
+    for i in range(0, len(y),1):
         plt.plot(y[i],x[i],color[i])
     plt.xscale('log')
     plt.draw()

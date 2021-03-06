@@ -6,7 +6,7 @@ import json
 
 
 from serial import Serial
-ser = serial.Serial('/dev/ttyUSB0',9600,timeout=1)
+ser = serial.Serial('/dev/ttyUSB0',1200,timeout=1)
 
 #if len(sys.argv) != 3:
 #    exit()
@@ -38,10 +38,11 @@ def sendOSC(freq,dudy):
     Send8(int(dudy))
     i = Read8()
     div = 20000000/(2**i)
-    pwm = Read16()
-    top = Read16()
+    pwm = Read32()
+    top = Read32()
+    freq = Read32()
     #return [div/top,(pwm*100)/top]
-    return [freq,dudy]
+    return 0
 
 def GetV(ratio):
     Vin = 4
@@ -56,17 +57,25 @@ def frange(start, end, jump):
 base = 10 # base for the exponent for log scale
 startF = 500 # starting frequency 
 endF = 500000 # ending frequency 
-dataPoints = 100 # amount of data points to collect between frequency jumps
-lists = []
+dataPoints = 100 # amount of data points to collect between frequencys
+measures = 10 #times to mesure
 for dudy in range(10,100,10): # starting dudy cycle ending dudy cycle and increment amount   
+    lists = []
     for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
-        freq = base**exp
-        lista = sendOSC(freq,dudy)
+        freq = base**(exp)
+        if(sendOSC(freq,dudy)):
+            continue
         listb = []
-        for _ in range(40): #2 seconds of data becuse of 10hz send rate
-            listb.append(GetV(511.0/11.0))
-        lists.append(lista)
-        lists.append(listb)
-        print(lists)
-        with open('output.txt','w') as filehandle:
+        Va = 0.0
+        for _ in range(measures): #2 seconds of data becuse of 10hz send rate
+            V = GetV(511.0/11.0)
+            if(V > 200):
+                V = 0
+            listb.append(V)
+            Va += V
+        Va /= measures
+        print(Va)
+        lists.append(freq)
+        lists.append([Va])
+        with open('./output/'+str(dudy),'w') as filehandle:
             json.dump(lists, filehandle)

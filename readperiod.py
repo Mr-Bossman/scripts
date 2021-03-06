@@ -6,7 +6,7 @@ import json
 
 
 from serial import Serial
-ser = serial.Serial('/dev/ttyUSB0',9600,timeout=1)
+ser = serial.Serial('/dev/ttyUSB0',1200,timeout=1)
 
 #if len(sys.argv) != 3:
 #    exit()
@@ -32,34 +32,18 @@ def Read16():
 def Read8():
     return int.from_bytes(ser.read(1), "little")
 
-
-def sendOSC(freq,dudy):
+def sendOSC(Tl,th):
+    freq = 1/(Th + Tl)
+    dudy = (100*Th)/(Th+Tl)
+    if(dudy < 1 or dudy > 99):
+        return 1
     Send32(int(freq))
     Send8(int(dudy))
     i = Read8()
     div = 20000000/(2**i)
-    pwm = Read16()
-    top = Read16()
-    #return [div/top,(pwm*100)/top]
-    return [freq,dudy]
-
-def sendOSC2(Tl,Th):
-    freq = 1/(Tl+Th)
-    dudy = (Th*100)/(Tl+Th)
-    if(dudy >= 100):
-        return 1
-    if(dudy < 1):
-        return 1
-
-    print(Th)
-    print(dudy)
-
-    Send32(int(freq))
-    Send8(int(dudy))
-    i = Read8()
-    div = 20000000/(2**i)
-    pwm = Read16()
-    top = Read16()
+    pwm = Read32()
+    top = Read32()
+    freq = Read32()
     #return [div/top,(pwm*100)/top]
     return 0
 
@@ -74,22 +58,28 @@ def frange(start, end, jump):
 #with open('output.txt','w') as filehandle:
 # data = json.load(filehandle)
 base = 10 # base for the exponent for log scale
-startF = 100 # starting frequency 
+startF = 500 # starting frequency 
 endF = 500000 # ending frequency 
-dataPoints = 100 # amount of data points to collect between frequency jumps
-lists = []
-for dudy in range(10,1000,20): # starting dudy cycle ending dudy cycle and increment amount   
+dataPoints = 100 # amount of data points to collect between frequencys
+measures = 10 #times to mesure
+for Thms in range(10,1000,20): # starting dudy cycle ending dudy cycle and increment amount   
+    lists = []
     for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
-        Th = .001/dudy
-        Tl = base**(-1*exp)-Th
-        if(sendOSC2(Tl,Th)):
+        Th = .01/Thms
+        Tl = base**(-1*exp) - Th
+        if(sendOSC(Tl,Th)):
             continue
-        lista = [Tl,Th]
         listb = []
-        for _ in range(20): #2 seconds of data becuse of 10hz send rate
-            listb.append(GetV(511.0/11.0))
-        lists.append(lista)
-        lists.append(listb)
-        print(lists)
-        with open('out.txt','w') as filehandle:
+        Va = 0.0
+        for _ in range(measures): #2 seconds of data becuse of 10hz send rate
+            V = GetV(511.0/11.0)
+            if(V > 200):
+                V = 0
+            listb.append(V)
+            Va += V
+        Va /= measures
+        print(Va)
+        lists.append(Tl)
+        lists.append([Va])
+        with open('./output/'+str(Th),'w') as filehandle:
             json.dump(lists, filehandle)
