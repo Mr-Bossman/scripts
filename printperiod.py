@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import json
 import numpy as np 
 from os import walk
-output_path = "./output"
+output_path = "./out4"
 def files():
     f = []
     for (dirpath, dirnames, filenames) in walk(output_path):
@@ -43,10 +43,17 @@ while True:
         #    for b in range(len(y[a])):
         #        dudy = (a*10)+10
         #        y[a][b] = (1/y[a][b])*(dudy/100)
-    for i in range(len(dudy)):
+    for i in range(0,len(dudy),1):
+        #print(str(file_names[i] ) + " " + color[0])
+        #print(str(file_names[i+1] ) + " "+ color[1])
+        #print(str(file_names[i+2] ) + " "+ color[2])
+
         plt.plot(dudy[i][0],dudy[i][1],color[i])
+        #plt.plot(dudy[i+1][0],dudy[i+1][1],color[1])
+        #plt.plot(dudy[i+2][0],dudy[i+2][1],color[2])
+
     plt.xscale('log')
     plt.draw()
-    plt.pause(.1)
+    plt.pause(1)
     plt.clf()
 

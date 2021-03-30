@@ -59,7 +59,7 @@ startF = 500 # starting frequency
 endF = 500000 # ending frequency 
 dataPoints = 100 # amount of data points to collect between frequencys
 measures = 10 #times to mesure
-for dudy in range(10,100,10): # starting dudy cycle ending dudy cycle and increment amount   
+for dudy in range(10,100,4): # starting dudy cycle ending dudy cycle and increment amount   
     lists = []
     for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
         freq = base**(exp)

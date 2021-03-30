@@ -62,25 +62,16 @@ startF = 50 # starting frequency
 endF = 500000 # ending frequency 
 dataPoints = 200 # amount of data points to collect between frequencys
 measures = 10 #times to mesure
-for Thms in range(100,1000,20): # starting dudy cycle ending dudy cycle and increment amount   
-    lists = []
-    print(str(.01/Thms) + " \n\n")
-    for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
-        Th = .01/Thms
-        Tl = base**(-1*exp) - Th
-        if(sendOSC(Tl,Th)):
-            continue
-        listb = []
-        Va = 0.0
-        for _ in range(measures): #2 seconds of data becuse of 10hz send rate
-            V = GetV(511.0/11.0)
-            if(V > 200):
-                V = 0
-            listb.append(V)
-            Va += V
-        Va /= measures
-        print(Va)
-        lists.append(Tl)
-        lists.append([Va])
-        with open('./out4/'+str(Th),'w') as filehandle:
-            json.dump(lists, filehandle)
+Th = .00275
+for exp in frange(math.log(startF,base),math.log(endF,base),(math.log(endF,base)-math.log(startF,base))/dataPoints):
+    Tl = base**(-1*exp) - Th
+    if(sendOSC(Tl,Th)):
+        continue
+    Va = 0.0
+    for _ in range(measures): #2 seconds of data becuse of 10hz send rate
+        V = GetV(511.0/11.0)
+        if(V > 200):
+            V = 0
+        Va += V
+    Va /= measures
+    print(str(Va) + "  "  + str(Tl))

@@ -25,7 +25,7 @@ def incavg(arr, inc):
         ret.append(avg)
     return ret
 while True:
-    color = ['r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k']
+    color = ['r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k','r','g','b','c','m','y','k']
     dudy = [[[],[]]]
     file_names = files()
     for i in range(len(file_names)):
@@ -36,7 +36,7 @@ while True:
             lists = json.load( filehandle)
         for index in range(len(lists)):
             if type(lists[index]) is float:
-                dudy[i][0] += [float(i)/(100*lists[index])]*len(lists[index+1])
+                dudy[i][0] += [float(file_names[i])/(100*lists[index])]*len(lists[index+1])
             else:
                 dudy[i][1] += lists[index]
         #for a in range(len(y)):
