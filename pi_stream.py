@@ -56,6 +56,7 @@ def clientthread(conn, addr):
                         pid.remove(stream_pid)
                         stream_pid.kill()   
                         stream_pid = 0
+                        net = False
                 else:
                     net = False 
                     remove(conn) 
@@ -79,7 +80,7 @@ def stream(server_url):
             pix_fmt='yuv420p',
             video_bitrate = "600k",
             audio_bitrate = "0",
-            g = "600",
+            g = "400",
             r = "30"
             )
         .global_args("-re", "-hide_banner" ,"-loglevel", "panic") # argument to act as a live stream
@@ -109,6 +110,9 @@ def start(check):
     global stream_pid
     global pid
     global server_address
+    if stream_pid != 0:
+        if not (stream_pid.poll() is None):
+            stream_pid = 0
     if(not check):
         st = time.perf_counter()
     if(stream_pid == 0 and not check):
