@@ -1,0 +1,12 @@
+#!/bin/python3
+import sys
+import time
+import serial
+from serial import Serial
+ser = serial.Serial(str(sys.argv[1]), int(sys.argv[2]),timeout = None) 
+while True:
+    ser.write(sys.stdin.buffer.read())
+
+
+
+

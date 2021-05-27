@@ -1,0 +1,27 @@
+#!/bin/python3
+import sys
+import time
+import colorsys
+import serial
+from serial import Serial
+from random import seed
+from random import random
+if len(sys.argv) != 4:
+    print("erroe")
+    exit()
+ser = serial.Serial(str(sys.argv[1]), int(sys.argv[2]) )
+seed(367546)
+seed(random())
+
+
+def rgb(colour):
+    color = [c*255 for c in colour]
+    ser.write(bytes([   bytes.fromhex( str(sys.argv[3]) )[0]  ]))
+    ser.write(bytes([int(color[1])]))
+    ser.write(bytes([int(color[0])]))
+    ser.write(bytes([int(color[2])]))
+
+while True:
+    for i in range(0,100):
+        rgb(colorsys.hsv_to_rgb(float(i)/100.0, 1, 1))
+        time.sleep(random()/5+0.01)

@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo ffmpeg -i $1 -f image2pipe -s 128x160 -an -pix_fmt rgb565 -vcodec rawvideo - | ./scripts/stream  /dev/ttyACM0 2000000
