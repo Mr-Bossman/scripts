@@ -32,5 +32,6 @@ while True:
 	elif always_free_cores-deviation >  free_cores:
 		killM()
 		time.sleep(10)
+		mining_cores = 0
 		print("Recalculating cores")
 	time.sleep(1)
