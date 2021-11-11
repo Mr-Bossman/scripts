@@ -20,12 +20,12 @@ def minewith(mining):
 	global proc
 	if proc != None:
 		proc.kill()
-	proc = subprocess.Popen(['/bin/ccminer', '-a', 'verus', '-o','stratum+tcp://na.luckpool.net:3956', '-u', 'RXhFKA9cTJXRbK8nuuZ3aCVDyQvC96dRLD.ja_02', '-p', 'x', '-t' ,  str(mining)],stdout=subprocess.DEVNULL)
+	proc = subprocess.Popen(['/bin/ccminer', '-a', 'verus', '-o','stratum+tcp://na.luckpool.net:3956', '-u', 'RXhFKA9cTJXRbK8nuuZ3aCVDyQvC96dRLD.ja_02', '-p', 'x', '-t' ,  str(mining)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 while True:
 	free_cores = (100-psutil.cpu_percent())/(100/cores)
 	if always_free_cores-deviation >  free_cores:
 		killM()
-		print("Recalculating cores")
+		print("Recalculating cores", flush=True)
 		time.sleep(10)
 		mining_cores = 0
 	elif  always_free_cores+deviation < free_cores:
@@ -35,5 +35,5 @@ while True:
 				free_cores -= tmp
 			mining_cores = tmp
 			minewith(mining_cores)
-			print("There are "+ str(round(free_cores,2)) + " free cores. Mining on " + str(mining_cores)+ " of " + str(cores) + " cores.")
+			print("There are "+ str(round(free_cores,2)) + " free cores. Mining on " + str(mining_cores)+ " of " + str(cores) + " cores.", flush=True)
 	time.sleep(1)
