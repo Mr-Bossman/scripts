@@ -6,8 +6,11 @@ import time
 import serial
 from serial import Serial
 from tkcolorpicker import askcolor
-if len(sys.argv) != 4:
-    print("erroe")
+if len(sys.argv) == 2:
+  port = sys.argv[1]
+  id = "ff"
+  baud = 9600
+elif len(sys.argv) != 4:
     port = "/dev/ttyUSB0"
     id = "ff"
     baud = 9600
@@ -15,20 +18,13 @@ else:
     port = sys.argv[1]
     baud = sys.argv[2]
     id = sys.argv[3]
-
-root = tk.Tk()
-style = ttk.Style(root)
-style.theme_use('clam')
-
-color = askcolor((255, 255, 0), root)
-print(color[0])
 ser = serial.Serial(str(port), int(baud) )
 
-ser.write(bytes([   bytes.fromhex( str(id) )[0]  ]))
+ser.write(bytes([   bytes.fromhex( str(id) )[0]]))
 time.sleep(.1)
-ser.write(bytes([color[0][1]]))
+ser.write(bytes([0]))
 time.sleep(.1)
-ser.write(bytes([color[0][0]]))
+ser.write(bytes([0]))
 time.sleep(.1)
-ser.write(bytes([color[0][2]]))
+ser.write(bytes([0]))
 ser.close()

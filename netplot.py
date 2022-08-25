@@ -7,7 +7,10 @@ plot=[[],[],[]]
 i = 0
 with open('/var/log/speed') as spe:
 	for line in spe:
-		plot[i].append(float(line.split()[1]))
+		speed = float(line.split()[1])
+		if(i==0 and speed > 100):
+			speed=-5
+		plot[i].append(speed)
 		i += 1
 		i = i % 3
 plt.figure(1)

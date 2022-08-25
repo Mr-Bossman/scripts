@@ -1,0 +1,3 @@
+## i.MXRT linux mainlining
+A little while after I looked into the F1C100s project I wanted another embedded linux challenge.
+I started by looking for chips that where popular but didn't have linux support, but could run a minimal linux. I eventually came across the I.MXRT series and although it had Linux support it was not mainlined and used old and very bad source. I did however notice that some one named Guilio had put some commits into U-Boot for the im
