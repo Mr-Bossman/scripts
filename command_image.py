@@ -4,13 +4,12 @@ import cv2 as cv
 
 
 invert = True
-# chest_lut[nible_ind][chest_num][slot_num] = line_num
-#chest_lut = [[[2,0],[3,1]],[[2,0],[1,3]]]
-chest_lut = [[[2,0],[1,3]],[[2,0],[1,3]]]
-chest_cords = ["-54 111 108", "-53 111 108",
-	       "-60 111 108", "-59 111 108",
-	       "-80 111 108", "-79 111 108",
-	       "-86 111 108", "-85 111 108"]
+# chest_lut[nible_ind][chest_num] = line_num
+chest_lut = [[2,0,1,3],[2,0,1,3]]
+chest_cords = ["-53 111 108", "-54 111 108",
+	       "-59 111 108", "-60 111 108",
+	       "-79 111 108", "-80 111 108",
+	       "-85 111 108", "-86 111 108"]
 cap = cv.VideoCapture("./test.gif")
 if not cap.isOpened():
 	print("Cannot open camera")
@@ -26,17 +25,12 @@ def list_to_discs(frame):
 	return ret
 
 def discs_to_chests(lines, chest_lut):
-	chests = [[15]*(6*9) for _ in range(len(chest_lut[0])*len(chest_lut))]
+	chests = [[15]*(3*9) for _ in range(len(chest_lut[0])*len(chest_lut))]
 	for i in range(len(lines)):
 		for nib in range(len(lines[i])):
-			flat_lut = sum(chest_lut[nib],[])
-			cnt = len(flat_lut)
-			ind = flat_lut.index(i%cnt)
-			chest_num = (ind//len(chest_lut[nib])) + (nib*len(chest_lut[nib]))
-			slot_mod = len(chest_lut[nib][0])
-			slot_offset = ((i//len(chest_lut[nib]))//slot_mod)*slot_mod
-			slot_num = ind%len(chest_lut[nib]) + slot_offset
-			chests[chest_num][slot_num] = lines[i][nib]
+			cnt = len(chest_lut[nib])
+			chest_num = chest_lut[nib].index(i%cnt) + (nib*cnt)
+			chests[chest_num][i//cnt] = lines[i][nib]
 	return chests
 
 def chest_to_command(chest, cords):
@@ -78,13 +72,13 @@ while True:
 	lines += list_to_discs(cv.bitwise_not(disped))
 
 chests = discs_to_chests(lines,chest_lut)
-chests = [chests[i//2][(i%2)*3*9:((i%2)+1)*3*9] for i in range(len(chests)*2)]
 
 text = "summon minecraft:falling_block ~ ~3 ~ {BlockState:{Name:\"minecraft:activator_rail\"},Time:1,Passengers:["
 for i in range(len(chests)):
 	prefix = "{id:\"minecraft:command_block_minecart\",Command:\""
 	suffix = "\"},"
 	text += prefix + chest_to_command(chests[i],chest_cords[i]) + suffix
+text += "{id:\"minecraft:command_block_minecart\",Command:\"kill @e[type=command_block_minecart,distance=..5]\"}]}"
 text += "{id:\"minecraft:command_block_minecart\",Command:\"minecraft:kill @e[type=command_block_minecart,distance=..5]\"}]}"
 print(text)
 cap.release()
