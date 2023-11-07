@@ -1,0 +1,8 @@
+alias open="nautilus . &>/dev/null & "
+alias install="sudo apt-get install"
+alias search="sudo apt-cache search"
+alias n="sudo nano"
+alias cls="clear"
+alias ex="exit"
+alias xclip="xclip -selection c"
+alias hgrep="history | grep"

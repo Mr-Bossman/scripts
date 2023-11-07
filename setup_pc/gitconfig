@@ -1,0 +1,33 @@
+[credential]
+        helper = cache
+
+[color]
+        ui = auto
+
+[user]
+        email = Mr.Bossman075@gmail.com
+        name = Jesse Taube
+
+[sendemail]
+        confirm = auto
+        smtpserver = smtp.gmail.com
+        smtpserverport = 587
+        smtpencryption = tls
+        smtpuser = Mr.Bossman075@gmail.com
+	smtpPass = pass
+
+[http]
+        sslverify = true
+
+[core]
+        editor = code --wait
+        autocrlf = false
+
+[url "ssh://git@github.com/"]
+        insteadOf = https://github.com/
+
+[pull]
+        rebase = true
+
+[init]
+        defaultBranch = master
