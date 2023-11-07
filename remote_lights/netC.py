@@ -1,6 +1,4 @@
 #!/bin/python3
-import tkinter as tk
-import tkinter.ttk as ttk
 import sys
 import time
 import asyncio
@@ -8,7 +6,6 @@ import websockets
 import serial
 from serial import Serial
 import string
-#from tkcolorpicker import askcolor
 if len(sys.argv) != 6:
     print("erroe")
     exit()

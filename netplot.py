@@ -6,7 +6,9 @@ color=['r','g','c']
 plot=[[],[],[]]
 i = 0
 with open('/var/log/speed') as spe:
-	for line in spe:
+	tests=[line for line in spe]
+	print(len(tests))
+	for line in tests[7200*3:]:
 		speed = float(line.split()[1])
 		if(i==0 and speed > 100):
 			speed=-5

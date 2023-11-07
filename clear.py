@@ -1,11 +1,8 @@
 #!/bin/python3
-import tkinter as tk
-import tkinter.ttk as ttk
 import sys
 import time
 import serial
 from serial import Serial
-from tkcolorpicker import askcolor
 if len(sys.argv) == 2:
   port = sys.argv[1]
   id = "ff"
