@@ -8,7 +8,7 @@ from serial import Serial
 from tkcolorpicker import askcolor
 if len(sys.argv) != 4:
     print("erroe")
-    port = "/dev/ttyUSB0"
+    port = "/dev/ttyUSB1"
     id = "ff"
     baud = 9600
 else:

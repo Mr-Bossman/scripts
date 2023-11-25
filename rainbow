@@ -8,7 +8,7 @@ from random import random
 seed(367546)
 seed(random())
 
-server_address = ('146.115.144.188', 678)
+server_address = ('localhost', 1234)
 def rgb(colour):
     color = [c*255 for c in colour]
     try:
