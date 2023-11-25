@@ -20,7 +20,6 @@ chrpath
 clang
 clang-format
 cloc
-code
 cups-bsd
 curl
 darktable
@@ -31,7 +30,6 @@ diffstat
 dnsutils
 dos2unix
 efibootmgr
-esptool
 ethtool
 evtest
 f3d
@@ -151,8 +149,6 @@ libnode-dev
 libnvidia-eglcore
 libnvidia-glcore
 libnvidia-glvkspirv
-libobjc-10-dev
-libobjc4
 libopencv-core-dev
 libopencv-dev
 libp11-kit-dev
@@ -325,8 +321,6 @@ qml-module-qtquick-window2
 r8168-dkms
 rsync
 rustc
-signal-desktop
-skypeforlinux
 snmp
 sshfs
 sshpass
@@ -336,7 +330,6 @@ subversion
 sunxi-tools
 system-config-printer
 tcc
-teamviewer
 texinfo
 texlive-base
 thunderbird
