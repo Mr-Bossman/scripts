@@ -1,7 +1,12 @@
 #!/bin/bash
+groups | grep sudo &>/dev/null || echo "Run \`su root -c \"usermod -aG sudo $(whoami)\"\` and re-log." && exit
 mkdir /tmp/setup_pc/
 cd /tmp/setup_pc/
+sudo apt-add-repository -ync non-free contrib non-free-firmware
 sudo apt update
+sudo apt install git
+sudo apt install -y $(cat packages)
+
 wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O chrome.deb
 wget "https://discord.com/api/download?platform=linux&format=deb" -O discord.deb
 wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
