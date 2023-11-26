@@ -21,3 +21,5 @@ cp ssh_config ~/.ssh/config
 cp -bS.bak tmux.conf ~/.tmux.conf
 cp -abS.bak config/* ~/.config
 sudo cp -bS.bak sshd_config /etc/ssh/sshd_config
+dconf load /org/gnome/terminal/ < gnome-terminal.properties
+wget -nc https://jachan.dev/images/gate.jpg -O ~/Pictures/
