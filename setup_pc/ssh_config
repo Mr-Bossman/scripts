@@ -4,7 +4,7 @@ Host github.com
   IdentityFile ~/.ssh/id_rsa
   IdentitiesOnly yes
 
-Host 10.4.1*
+Host 10.4.1.*
 Port 22
 User admin
     Ciphers aes128-cbc,aes192-ctr,aes256-ctr,aes128-ctr,3des-cbc
@@ -20,7 +20,7 @@ User admin
     PubkeyAcceptedAlgorithms +ssh-rsa
     HostkeyAlgorithms +ssh-rsa
 
-Host h30*
+Host h30.*
 User userland
     SendEnv LANG LC_*
     HashKnownHosts yes
@@ -29,7 +29,7 @@ User userland
     Port 31415
     Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
 
-Host h66*
+Host h66.*
 User userland
     SendEnv LANG LC_*
     HashKnownHosts yes
@@ -38,7 +38,7 @@ User userland
     Port 31415
     Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
 
-Host h10*
+Host h10.*
 User userland
     SendEnv LANG LC_*
     HashKnownHosts yes
@@ -47,7 +47,7 @@ User userland
     Port 31415
     Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
 
-Host h101*
+Host h101.*
 User userland
     SendEnv LANG LC_*
     HashKnownHosts yes
@@ -57,7 +57,7 @@ User userland
     Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
  
 
-Host 10.4*
+Host 10.4.*
 User userland
     SendEnv LANG LC_*
     HashKnownHosts yes

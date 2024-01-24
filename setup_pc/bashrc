@@ -3,6 +3,7 @@ export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa'
 shopt -s histappend
 shopt -s cmdhist
 shopt -s checkwinsize
+HOSTALIASES=~/.hosts
 HISTSIZE=-1
 HISTFILESIZE=-1
 HISTCONTROL=ignoredups

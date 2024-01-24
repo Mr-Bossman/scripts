@@ -27,3 +27,9 @@ cp -abS.bak config/* ~/.config
 sudo cp -bS.bak sshd_config /etc/ssh/sshd_config
 dconf load /org/gnome/terminal/ < gnome-terminal.properties
 wget -nc https://jachan.dev/images/gate.jpg -O ~/Pictures/
+
+for i in $(seq 1 254); do
+for j in $(seq 1 254); do
+echo h$i.$j 10.4.$i.$j >> ~/.hosts
+done
+done

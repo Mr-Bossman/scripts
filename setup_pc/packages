@@ -57,6 +57,7 @@ gcc-arm-none-eabi
 gcc-arm-none-eabi-source
 gcc-riscv64-unknown-elf
 gdb-multiarch
+gimp
 git-email
 git-filter-repo
 git-gui
