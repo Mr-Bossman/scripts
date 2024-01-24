@@ -620,6 +620,7 @@ python3-gi
 python3-git
 python3-ibus-1.0
 python3-idna
+python3-launchpadlib
 python3-ldb
 python3-louis
 python3-mako
