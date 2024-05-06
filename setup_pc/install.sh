@@ -9,6 +9,13 @@ sudo apt install git
 sudo apt install -y $(cat packages)
 sudo apt autoremove
 
+#sudo add-apt-repository -yn ppa:obsproject/obs-studio
+#sudo add-apt-repository -yn ppa:kicad/kicad-8.0-releases
+# replace with lunar of the closest ubuntu release
+
+#sudo apt install kicad kicad-packages3d kicad-doc obs-studio
+# deb [signed-by=/etc/apt/keyrings/lutris.gpg] https://download.opensuse.org/repositories/home:/strycore/Debian_12/ ./
+
 sudo usermod -aG tty $(whoami)
 sudo usermod -aG libvirt $(whoami)
 
