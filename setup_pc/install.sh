@@ -1,5 +1,6 @@
 #!/bin/bash
-groups | grep sudo &>/dev/null || echo "Run \`su root -c \"usermod -aG sudo $(whoami)\"\` and re-log." && exit
+script_dir=$(dirname $(realpath $0))
+groups | grep sudd &>/dev/null || { echo "Run \`su root -c \"sudo usermod -aG sudo $(whoami)\"\` and re-log."; exit; }
 mkdir /tmp/setup_pc/
 cd /tmp/setup_pc/
 sudo apt-add-repository -ync non-free contrib non-free-firmware
@@ -25,6 +26,9 @@ wget -nc "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x
 wget -nc "https://get.skype.com/getskype-webwrap-deb" -O skype.deb
 wget -nc "https://launcher.mojang.com/download/Minecraft.deb" -O minecraft.deb
 
+sudo apt install -y ./*.deb
+
+cd $script_dir
 cat bashrc >> ~/.bashrc
 cat bash_aliases >> ~/.bash_aliases
 cp gitconfig ~/.gitconfig
@@ -33,7 +37,7 @@ cp -bS.bak tmux.conf ~/.tmux.conf
 cp -abS.bak config/* ~/.config
 sudo cp -bS.bak sshd_config /etc/ssh/sshd_config
 dconf load /org/gnome/terminal/ < gnome-terminal.properties
-wget -nc https://jachan.dev/images/gate.jpg -O ~/Pictures/
+wget -nc https://jachan.dev/images/gate.jpg -O ~/Pictures/gate.jpg
 
 for i in $(seq 1 254); do
 for j in $(seq 1 254); do
