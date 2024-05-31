@@ -1,33 +1,37 @@
 [credential]
-        helper = cache
+	helper = cache
 
 [color]
-        ui = auto
+	ui = auto
 
 [user]
-        email = Mr.Bossman075@gmail.com
-        name = Jesse Taube
+	email = Mr.Bossman075@gmail.com
+	name = Jesse Taube
 
 [sendemail]
-        confirm = auto
-        smtpserver = smtp.gmail.com
-        smtpserverport = 587
-        smtpencryption = tls
-        smtpuser = Mr.Bossman075@gmail.com
-	smtpPass = pass
+	confirm = never
+	smtpserver = smtp.gmail.com
+	smtpserverport = 587
+	smtpencryption = tls
+	smtpuser = Mr.Bossman075@gmail.com
+	#smtpPass = pass
+
+#for email creds
+[include]
+	path = ~/.config/git/config.local
 
 [http]
-        sslverify = true
+	sslverify = true
 
 [core]
-        editor = code --wait
-        autocrlf = false
+	editor = code --wait
+	autocrlf = false
 
 [url "ssh://git@github.com/"]
-        insteadOf = https://github.com/
+	insteadOf = https://github.com/
 
 [pull]
-        rebase = true
+	rebase = true
 
 [init]
-        defaultBranch = master
+	defaultBranch = master
