@@ -17,8 +17,8 @@ sudo apt autoremove
 #sudo apt install kicad kicad-packages3d kicad-doc obs-studio
 # deb [signed-by=/etc/apt/keyrings/lutris.gpg] https://download.opensuse.org/repositories/home:/strycore/Debian_12/ ./
 
-sudo usermod -aG tty $(whoami)
-sudo usermod -aG libvirt $(whoami)
+sudo usermod -aG tty,dialout,sudo,video,libvirt,kvm,disk $(whoami)
+#sudo usermod -aG tty,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev,bluetooth,scanner,wireshark,libvirt,kvm,disk $(whoami)
 
 wget -nc "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O chrome.deb
 wget -nc "https://discord.com/api/download?platform=linux&format=deb" -O discord.deb

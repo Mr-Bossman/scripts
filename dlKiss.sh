@@ -3,9 +3,9 @@ URL=$1
 OUTPUT=$2
 
 #grab from the headers of the page in devtools
-cf_clearance="RafnfzpA7FMtDQkeq20M0Azy_G.JgKTfcND4jqRxy6M-1712285623-1.0.1.1-SI2zo5k40pfq8bMN3dJoAq7aLDgbLH57BCBDCNx8lJ49qFSllgsXHBma56pWt.Hz3hQH1fLEFKKnxeU6tbZzgQ"
+cf_clearance="qCJQBdyDc2M_4CJIyJuAKW8FURw1c5QXIlFwULX3uZc-1712356356-1.0.1.1-3hGcjhX006A8EgtURafsqAsPkhawQ9GD9czCtk.iAsI9olk2DHG82FicjTAZuVnPJQ24BAjuMaIOQbQBUTcmgQ"
 user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-mirror_server="oserver"
+mirror_server="vlserver"
 
 get_ctk_cmd() {
 	curl $1 -s -w "%{stderr}%{http_code}\n" -H "cookie: cf_clearance=$cf_clearance" \
@@ -42,16 +42,24 @@ get_server() {
 
 get_m3u8_cmd(){
 	curl $1 -s -w "%{stderr}%{http_code}\n" -H "referer: $2" \
-		| grep m3u8 | sed -r -e 's/\\//g' -e 's/.*file\":\"([^"]+).*/\1/'
+ 		-H "cookie: cf_clearance=$cf_clearance" -H "user-agent: $user_agent" \
+		-H 'sec-fetch-dest: iframe' \
+		#| grep m3u8
+		#| sed -e 's/[\\\"]//g' -e 's/m3u8.*/m3u8/g' -e 's/.*file://g'
 }
 
 get_m3u8() {
 	{ status=$(get_m3u8_cmd $1 $2 2>&1 >&3 3>&-); } 3>&1;
 	if [[ "$status" != *"200"* ]]; then
-		echo -e "curl $1\nReturned status: $status. \n"\
-			"Did you set the Cloudflare clearance token?" 1>&2
+		echo -e "curl $1\nReturned status: $status."\
+			"\nDid you set the Cloudflare clearance token?" 1>&2
 		exit 1
 	fi
+}
+
+download_m3u8() {
+	curl $1 -s -w "%{stderr}%{http_code}\n" -H "cookie: cf_clearance=$cf_clearance" \
+		-H "user-agent: $user_agent"
 }
 
 get_m3u8_from_url() {
@@ -62,11 +70,11 @@ get_m3u8_from_url() {
 
 	server=$(get_server $1 $ctk)
 	err=$?;if [ $err -ne 0 ]; then exit $err; fi #exit if error
-	#echo $server
+	echo $server 1>&2
 
 	m3u8=$(get_m3u8 $server $1)
 	err=$?;if [ $err -ne 0 ]; then exit $err; fi #exit if error
-	echo $m3u8
+	echo $m3u8 1>&2
 }
 
 get_episode_list_cmd() {
@@ -114,4 +122,6 @@ episode=$(get_episode_id $URL)
 err=$?;if [ $err -ne 0 ]; then exit $err; fi #exit if error
 m3u8=$(get_m3u8_from_url $episode)
 err=$?;if [ $err -ne 0 ]; then exit $err; fi #exit if error
-ffmpeg -i $m3u8 -c copy $OUTPUT
+echo $m3u8
+#download_m3u8 $m3u8
+#ffmpeg -i $m3u8 -c copy $OUTPUT
